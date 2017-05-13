@@ -38,7 +38,7 @@ public class RealTimeMonitorController {
     public ResponseEntity<?> getSearchResult(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
     {
         PageResponseBody respond = new PageResponseBody();
-        
+
 
         //logic
         return  ResponseEntity.ok(respond);

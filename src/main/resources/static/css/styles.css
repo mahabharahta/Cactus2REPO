@@ -59,3 +59,25 @@ th {
     background-color: #4CAF50;
     color: white;
 }
+h1 {
+    float: right;
+}
+
+.index {
+    text-align: center;
+    font-size: 4em;
+}
+
+.name {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.infoitem {
+    margin-left:3%;
+    float: left;
+}
+
+.greenhouseinfo {
+    margin-top: 2%;
+}

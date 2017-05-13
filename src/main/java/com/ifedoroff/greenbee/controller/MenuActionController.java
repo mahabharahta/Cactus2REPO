@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -21,6 +22,7 @@ public class MenuActionController {
 
     @Autowired
     DevicesRepository devicesRepository;
+
 
     @PostMapping("/api/navigation/all")
     public ResponseEntity<?> getListHouses(@RequestBody DevicesSearchCriteria search, Errors errors)
@@ -43,7 +45,7 @@ public class MenuActionController {
                 "                <th>Текущая температура</th>\n" +
                 "                <th>Текущая влажность</th>\n" +
                 "            </tr>\n" +
-                "            <tr><td>Теплица 1</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
+                "            <tr><td><a class= \"#greenhouseinfo\" data-id=\"Теплица1\" onclick=\"click_info(this.getAttribute('data-id'));\">Теплица 1</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
                 "            <tr><td>Теплица 2</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
                 "            <tr><td>Теплица 3</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
                 "            <tr><td>Теплица 4</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
@@ -63,6 +65,36 @@ public class MenuActionController {
         return  ResponseEntity.ok(respond);
     }
 
+    @PostMapping("/api/navigation/info")
+    public ResponseEntity<?> getInfo(@RequestBody DevicesSearchCriteria search, Errors errors)
+    {
+        System.out.println(search.getAccount() + " request");
+        PageResponseBody respond = new PageResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+        // logic
+        Random r = new Random();
+        int temperature = r.nextInt(50);
+        int humidity = r.nextInt(50);
+        String page = "<div class=\"greenhouseinfo\">\n" +
+                "        <h1>Теплица 1</h1>\n" +
+                "        <div class=\"humidity infoitem\">\n" +
+                "            <p class=\"index\">"+temperature+"%</p>\n" +
+                "            <p class=\"name\">Влажность</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"temperature infoitem\">\n" +
+                "            <p class=\"index\">"+humidity+"</p>\n" +
+                "            <p class=\"name\">Температура</p>\n" +
+                "        </div>\n" +
+                "</div>";
+        respond.setMsg("success");
+        respond.setResult(page);
+        return  ResponseEntity.ok(respond);
+    }
+
     @PostMapping("/api/navigation/feed")
     public ResponseEntity<?> getFeedback(@RequestBody DevicesSearchCriteria search, Errors errors)
     {
@@ -78,7 +110,7 @@ public class MenuActionController {
         String page = " <div class=\"feed\">\n" +
                 "        <ul class = \"feedmenu\">\n" +
                 "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 1</p>\n" +
+                "                <p>Теплица 1 </a></p>\n" +
                 "            </li>\n" +
                 "            <li class=\"greenhouseitem\">\n" +
                 "                <p>Теплица 2</p>\n" +
