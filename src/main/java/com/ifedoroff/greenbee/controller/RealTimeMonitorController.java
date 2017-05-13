@@ -2,6 +2,9 @@ package com.ifedoroff.greenbee.controller;
 
 import com.ifedoroff.greenbee.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Rostik on 13.05.2017.
@@ -19,12 +23,15 @@ public class RealTimeMonitorController {
 
 
     @Autowired
+    private MongoOperations mongoOperations;
+
+    @Autowired
     private HumidityDataRepository humidityDataRepository;
 
     @Autowired
     private TemperatureDataRepository temperatureDataRepository;
 
-    @PostMapping("/api/realtime/searchfirst")
+    @PostMapping("/api/realtime/searchreal")
     public ResponseEntity<?> getSearchResult(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
     {
         PageResponseBody respond = new PageResponseBody();
@@ -32,10 +39,25 @@ public class RealTimeMonitorController {
         return  ResponseEntity.ok(respond);
     }
 
-    @GetMapping("/api/test")
-    public  ResponseEntity<?> getTest(@RequestBody SearchRealTemperatureCriteria search, Errors errors)
+
+    // refactor next
+    private Temperature getLastTemperatureByDate()
     {
-        PageResponseBody respond = new PageResponseBody();
-        return  ResponseEntity.ok(respond);
+        Query q = new Query();
+        q.limit(1);
+        q.with(new Sort(Sort.Direction.DESC, "date"));
+        List<Temperature> t = mongoOperations.find(q,Temperature.class);
+        return  t.get(0);
     }
+
+    private Humidity getLastHumidityByDate()
+    {
+        Query q = new Query();
+        q.limit(1);
+        q.with(new Sort(Sort.Direction.DESC, "date"));
+        List<Humidity> t = mongoOperations.find(q,Humidity.class);
+        return  t.get(0);
+    }
+
+
 }

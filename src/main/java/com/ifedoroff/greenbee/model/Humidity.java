@@ -15,6 +15,30 @@ public class Humidity {
     @Id
     String UUID;
 
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
     @Override
     public String toString() {
         return  "UUID : " + UUID + ", Date : " + date + ", Value :" + value;

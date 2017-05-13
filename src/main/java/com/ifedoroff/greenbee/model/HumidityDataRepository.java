@@ -12,5 +12,5 @@ public interface  HumidityDataRepository extends MongoRepository<Temperature, Lo
 
     List<Humidity> findByDate(String uuid, String date);
 
-
+    Humidity insert(Humidity humidity);
 }
