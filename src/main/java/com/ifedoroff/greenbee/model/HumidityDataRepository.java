@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface  HumidityDataRepository extends MongoRepository<Temperature, Long> {
 
-    Temperature findByName(String name);
+    Humidity findByName(String name);
 }

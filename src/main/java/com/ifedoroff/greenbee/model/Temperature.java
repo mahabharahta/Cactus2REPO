@@ -10,8 +10,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Temperature{
     int value;
 
-    String Date;
+    String date;
 
     @Id
     String UUID;
+
+    @Override
+    public String toString() {
+        return  "UUID : " + UUID + ", Date : " + date + ", Value :" + value;
+    }
 }
