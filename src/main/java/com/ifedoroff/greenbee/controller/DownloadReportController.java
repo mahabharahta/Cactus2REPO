@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/download")
 public class DownloadReportController {
-    @Autowired
-    ServletContext context;
 
     @GetMapping("/pdf/{fileName:.+}")
     public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) {

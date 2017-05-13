@@ -1,7 +1,5 @@
 package com.ifedoroff.greenbee;
 
-import com.ifedoroff.greenbee.model.HumidityDataRepository;
-import com.ifedoroff.greenbee.model.TemperatureDataRepository;
 import com.ifedoroff.greenbee.service.DataHandleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +15,7 @@ import static java.lang.System.out;
  * Created by Rostik on 13.05.2017.
  */
 public class DataServer {
-
+    public static DataHandleService dataHandleService = new DataHandleService();
 
     public  static  void run() throws Exception
     {
@@ -41,9 +39,7 @@ public class DataServer {
             log("New connection with client at " + socket);
         }
 
-        @Autowired
-        DataHandleService dataHandleService
-                ;
+
         public void handle(String input) throws Exception
         {
             dataHandleService.addDataToBase(input);
@@ -63,7 +59,7 @@ public class DataServer {
                     }
                     try {
                         System.out.println(input);
-                        //handle(input);
+                        handle(input);
                     }
                     catch (Exception e)
                     {

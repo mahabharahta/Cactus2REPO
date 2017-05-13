@@ -72,15 +72,11 @@ function feed_click()
         cache: false,
         timeout: 600000,
         success: function (data) {
-
             var json = JSON.parse(JSON.stringify(data));
             $('#main_content').html(json["result"]);
-
         },
         error: function (e) {
-
            alert(e);
-
         }
     });
 }
@@ -106,9 +102,7 @@ function all_click()
 
         },
         error: function (e) {
-
             alert(e);
-
         }
     });
 }

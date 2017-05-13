@@ -6,16 +6,13 @@ import org.hibernate.validator.constraints.NotBlank;
  * Created by Rostik on 13.05.2017.
  */
 public class SensorData {
-    @NotBlank(message = " temperature can't be empty")
+
     int temperature;
 
-    @NotBlank(message = "humidity can't be empty")
     int humidity;
 
-    @NotBlank(message = "light can't be empty")
     int light;
 
-    @NotBlank(message = "id can't be empty")
     String id;
 
 

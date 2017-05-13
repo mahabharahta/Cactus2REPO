@@ -36,7 +36,6 @@ public class Temperature implements IData{
 
     String date;
 
-    @Id
     String UUID;
 
     @Override

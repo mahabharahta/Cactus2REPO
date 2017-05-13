@@ -12,7 +12,6 @@ public class Light implements IData {
 
     String date;
 
-    @Id
     String UUID;
 
     public String getUUID() {

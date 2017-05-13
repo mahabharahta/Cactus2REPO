@@ -1,47 +1,39 @@
-package com.ifedoroff.greenbee.controller;
+package com.ifedoroff.greenbee.service;
 
+import com.ifedoroff.greenbee.SpringBootApplication;
 import com.ifedoroff.greenbee.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-
+import java.util.StringJoiner;
+import com.ifedoroff.greenbee.model.Temperature;
 /**
  * Created by Rostik on 13.05.2017.
  */
-@RestController
-public class RealTimeMonitorController {
+@Service
+public class RealTimeService {
 
-
-    @Autowired
-    private MongoOperations mongoOperations;
-
-    @Autowired
-    private HumidityDataRepository humidityDataRepository;
-
-    @Autowired
-    private TemperatureDataRepository temperatureDataRepository;
-
-    @Autowired
-    private LightDataRepository lightDataRepository;
-
-    @PostMapping("/api/realtime/searchreal")
-    public ResponseEntity<?> getSearchResult(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
+    public SensorData getSearchResult(String id)
     {
-        PageResponseBody respond = new PageResponseBody();
-
-
+        SensorData result = new SensorData();
+        result.setId(id);
+        Temperature temperature = getLastByDate(Temperature.class);
+        Light light = getLastByDate(Light.class);
+        Humidity humidity = getLastByDate(Humidity.class);
+        result.setTemperature(temperature.getValue());
+        result.setHumidity(humidity.getValue());
+        result.setLight(light.getValue());
         //logic
-        return  ResponseEntity.ok(respond);
+        return  result;
     }
 
 
@@ -49,11 +41,11 @@ public class RealTimeMonitorController {
 
     private <T extends IData> T getLastByDate(Class<T> type)
     {
+        MongoOperations mongoOperations = SpringBootApplication.ctx.getBean(MongoOperations.class);
         Query q = new Query();
         q.limit(1);
         q.with(new Sort(Sort.Direction.DESC, "date"));
         List<T> t = mongoOperations.find(q,type);
         return  t.get(0);
     }
-
 }

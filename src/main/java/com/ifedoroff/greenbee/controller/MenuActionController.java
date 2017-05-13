@@ -1,8 +1,8 @@
 package com.ifedoroff.greenbee.controller;
 
-import com.ifedoroff.greenbee.model.DevicesRepository;
-import com.ifedoroff.greenbee.model.DevicesSearchCriteria;
-import com.ifedoroff.greenbee.model.PageResponseBody;
+import com.ifedoroff.greenbee.SpringBootApplication;
+import com.ifedoroff.greenbee.model.*;
+import com.ifedoroff.greenbee.service.RealTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 public class MenuActionController {
 
 
-    @Autowired
-    DevicesRepository devicesRepository;
+    //@Autowired
+    //DevicesRepository devicesRepository;
 
 
     @PostMapping("/api/navigation/all")
@@ -65,28 +65,30 @@ public class MenuActionController {
         return  ResponseEntity.ok(respond);
     }
 
+
+
     @PostMapping("/api/navigation/info")
     public ResponseEntity<?> getInfo(@RequestBody DevicesSearchCriteria search, Errors errors)
     {
-        System.out.println(search.getAccount() + " request");
         PageResponseBody respond = new PageResponseBody();
         if (errors.hasErrors())
         {
             respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
             return ResponseEntity.badRequest().body(respond);
         }
-        // logic
-        Random r = new Random();
-        int temperature = r.nextInt(50);
-        int humidity = r.nextInt(50);
+
+        RealTimeService realTimeService = SpringBootApplication.ctx.getBean(RealTimeService.class);
+        SensorData sensorData = realTimeService.getSearchResult(search.getAccount());
+        int temperature = sensorData.getTemperature();
+        int humidity = sensorData.getHumidity();
         String page = "<div class=\"greenhouseinfo\">\n" +
                 "        <h1>Теплица 1</h1>\n" +
                 "        <div class=\"humidity infoitem\">\n" +
-                "            <p class=\"index\">"+temperature+"%</p>\n" +
+                "            <p class=\"index\">"+humidity+"%</p>\n" +
                 "            <p class=\"name\">Влажность</p>\n" +
                 "        </div>\n" +
                 "        <div class=\"temperature infoitem\">\n" +
-                "            <p class=\"index\">"+humidity+"</p>\n" +
+                "            <p class=\"index\">"+temperature+"</p>\n" +
                 "            <p class=\"name\">Температура</p>\n" +
                 "        </div>\n" +
                 "</div>";
