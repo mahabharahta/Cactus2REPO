@@ -2,6 +2,7 @@ package com.ifedoroff.greenbee;
 
 import com.ifedoroff.greenbee.model.HumidityDataRepository;
 import com.ifedoroff.greenbee.model.TemperatureDataRepository;
+import com.ifedoroff.greenbee.service.DataHandleService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
@@ -17,11 +18,6 @@ import static java.lang.System.out;
  */
 public class DataServer {
 
-    @Autowired
-    private static TemperatureDataRepository temperatureDataRepository;
-
-    @Autowired
-    private static HumidityDataRepository humidityDataRepository;
 
     public  static  void run() throws Exception
     {
@@ -44,9 +40,13 @@ public class DataServer {
             this.socket = socket;
             log("New connection with client at " + socket);
         }
-        public void handle(String input)
+
+        @Autowired
+        DataHandleService dataHandleService
+                ;
+        public void handle(String input) throws Exception
         {
-            // handle logic
+            dataHandleService.addDataToBase(input);
             out.println(input);
         }
         public void run() {
@@ -61,7 +61,13 @@ public class DataServer {
                     if (input == null || input.equals(".")) {
                         break;
                     }
-                    handle(input);
+                    try {
+                        handle(input);
+                    }
+                    catch (Exception e)
+                    {
+                        log("Error storage data : " + e);
+                    }
                 }
             } catch (IOException e) {
                 log("Error handling client: " + e);
