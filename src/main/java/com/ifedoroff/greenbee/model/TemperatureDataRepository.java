@@ -1,6 +1,7 @@
 package com.ifedoroff.greenbee.model;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.List;
 
 /**
  * Created by Rostik on 13.05.2017.
@@ -8,5 +9,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface  TemperatureDataRepository extends MongoRepository<Temperature, Long> {
 
-    Temperature findByName(String name);
+    List<Temperature> findByDate(String uuid, String date);
+
+    Temperature findTopByOrderByCreatedDesc();
 }

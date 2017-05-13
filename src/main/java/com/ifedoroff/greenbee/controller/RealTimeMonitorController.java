@@ -19,6 +19,7 @@ import javax.validation.Valid;
 @RestController
 public class RealTimeMonitorController {
 
+
     @Autowired
     private HumidityDataRepository humidityDataRepository;
 
