@@ -20,6 +20,13 @@ var dataSourceHumidity = [{
     max: 95
 }];
 
+var dataSourceIllumination = [{
+    name: 'Current',
+    mean: 1250,
+    min: 500,
+    max: 1860
+}];
+
 function updateInfo() {
     var search = {}
     search["account"] = uuid;
@@ -91,6 +98,33 @@ function updateInfo() {
                     },
                     value : dataSourceHumidity[0].mean,
                     subvalues : [dataSourceHumidity[0].min, dataSourceHumidity[0].max]
+                }).dxCircularGauge("instance");
+
+                var gauge = $(".gaugeillumination").dxCircularGauge({
+                    scale: {
+                        startValue: 0,
+                        endValue: 3000,
+                        tickInterval: 500,
+                        label: {
+                            customizeText: function (arg) {
+                                return arg.valueText + " лк";
+                            }
+                        }
+                    },
+                    rangeContainer: {
+                        ranges: [
+                            { startValue: 0, endValue: 1000, color: "#000000" },
+                            { startValue: 1000, endValue: 2000, color: "#ff9400" },
+                            { startValue: 2000, endValue: 3000, color: "#E6E200" }
+                        ]
+                    },
+                    tooltip: { enabled: true },
+                    title: {
+                        text: "Освещенность",
+                        font: { size: 28 }
+                    },
+                    value : dataSourceIllumination[0].mean,
+                    subvalues : [dataSourceIllumination[0].min, dataSourceIllumination[0].max]
                 }).dxCircularGauge("instance");
             },
             error: function (e) {

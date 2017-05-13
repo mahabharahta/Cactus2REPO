@@ -79,19 +79,26 @@ public class MenuActionController {
         Random r = new Random();
         int temperature = r.nextInt(50);
         int humidity = r.nextInt(50);
+        int illumination = r.nextInt(50);
         String page = "<div class=\"greenhouseinfo\">\n" +
                 "        <h1>Теплица 1</h1>\n" +
+                "        <div class=\"temperature infoitem\">\n" +
+                "            <p class=\"index\">"+humidity+" °C</p>\n" +
+                "            <p class=\"name\">Температура</p>\n" +
+                "        </div>\n" +
                 "        <div class=\"humidity infoitem\">\n" +
                 "            <p class=\"index\">"+temperature+"%</p>\n" +
                 "            <p class=\"name\">Влажность</p>\n" +
                 "        </div>\n" +
-                "        <div class=\"temperature infoitem\">\n" +
-                "            <p class=\"index\">"+humidity+"</p>\n" +
-                "            <p class=\"name\">Температура</p>\n" +
+                "        <div class=\"illumination infoitem\">\n" +
+                "            <p class=\"index\">"+illumination+" лк</p>\n" +
+                "            <p class=\"name\">Освещенность</p>\n" +
                 "        </div>\n" +
                 "      </div>\n" +
+                "        <div class=\"hrdiv\"><hr></div>\n" +
                 "        <div class=\"gaugetemperature\"></div>\n" +
                 "        <div class=\"gaugehumidity\"></div>\n" +
+                "        <div class=\"gaugeillumination\"></div>\n" +
                 "      </div>";
         respond.setMsg("success");
         respond.setResult(page);
