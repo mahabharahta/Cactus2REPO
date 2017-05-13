@@ -1,4 +1,61 @@
-#gauge {
-    height: 440px;
+.menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background-color: #f2f2f2;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    padding-left: 2%;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+}
+
+.content {
+    margin-left:25%;
+    padding: 1px 16px;
+    height:1000px;
+}
+
+.greenhouseitem {
+    padding-top: 2%;
+    font-size: 1.5em;
+    text-align: center;
+    list-style-type: none;
+}
+
+table {
+    padding-top: 2%;
+    border-collapse: collapse;
     width: 100%;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+th, td {
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
 }

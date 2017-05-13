@@ -21,64 +21,12 @@
 
 
 <ul class = "menu">
-    <li class = "menuitem"><a class="active" href="#feed">Лента</a></li>
-    <li class = "menuitem"><a href="#all">Все теплицы</a></li>
-    <li class = "menuitem"><a href="#add">Добавить теплицу</a></li>
+    <li class = "menuitem"><a class="active" onclick="feed_click()">Лента</a></li>
+    <li class = "menuitem"><a onclick="all_click()">Все теплицы</a></li>
 </ul>
 
-<div class = "content">
-    <div class="feed">
-        <ul class = "feedmenu">
-            <li class="greenhouseitem">
-                <p>Теплица 1</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 2</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 3</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 4</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 5</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 6</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 7</p>
-            </li>
-            <li class="greenhouseitem">
-                <p>Теплица 8</p>
-            </li>
-        </ul>
-    </div>
-    <div class="all">
-        <table border="1">
-            <tr>
-                <th>Номер обьекты</th>
-                <th>Тип продукции</th>
-                <th>Дата посадки</th>
-                <th>Текущая температура</th>
-                <th>Текущая влажность</th>
-            </tr>
-            <tr><td>Теплица 1</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 2</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 3</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 4</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 5</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 6</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 7</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 8</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
-            <tr><td>Теплица 9</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>
+<div class = "content" id="main_content">
 
-        </table>
-    </div>
-    <div class="add">
-
-    </div>
 </div>
 
 <script type="text/javascript" src="js/main.js"></script>
