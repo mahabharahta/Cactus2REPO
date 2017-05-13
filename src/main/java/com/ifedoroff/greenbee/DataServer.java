@@ -62,7 +62,8 @@ public class DataServer {
                         break;
                     }
                     try {
-                        handle(input);
+                        System.out.println(input);
+                        //handle(input);
                     }
                     catch (Exception e)
                     {

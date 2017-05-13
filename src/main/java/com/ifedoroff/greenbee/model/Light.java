@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Created by Rostik on 13.05.2017.
  */
-@Document(collection = "humidity")
-public class Humidity implements IData {
+@Document(collection = "light")
+public class Light implements IData {
     int value;
 
     String date;
@@ -41,6 +41,6 @@ public class Humidity implements IData {
 
     @Override
     public String toString() {
-        return  "UUID : " + UUID + ", Date : " + date + ", Humidity Value :" + value;
+        return  "UUID : " + UUID + ", Date : " + date + ", Light Value :" + value;
     }
 }

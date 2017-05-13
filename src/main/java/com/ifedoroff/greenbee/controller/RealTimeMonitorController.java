@@ -31,33 +31,29 @@ public class RealTimeMonitorController {
     @Autowired
     private TemperatureDataRepository temperatureDataRepository;
 
+    @Autowired
+    private LightDataRepository lightDataRepository;
+
     @PostMapping("/api/realtime/searchreal")
     public ResponseEntity<?> getSearchResult(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
     {
         PageResponseBody respond = new PageResponseBody();
+        
+
         //logic
         return  ResponseEntity.ok(respond);
     }
 
 
     // refactor next
-    private Temperature getLastTemperatureByDate()
+
+    private <T extends IData> T getLastByDate(Class<T> type)
     {
         Query q = new Query();
         q.limit(1);
         q.with(new Sort(Sort.Direction.DESC, "date"));
-        List<Temperature> t = mongoOperations.find(q,Temperature.class);
+        List<T> t = mongoOperations.find(q,type);
         return  t.get(0);
     }
-
-    private Humidity getLastHumidityByDate()
-    {
-        Query q = new Query();
-        q.limit(1);
-        q.with(new Sort(Sort.Direction.DESC, "date"));
-        List<Humidity> t = mongoOperations.find(q,Humidity.class);
-        return  t.get(0);
-    }
-
 
 }

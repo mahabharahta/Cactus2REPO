@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by Rostik on 13.05.2017.
  */
 @Document(collection = "temperature")
-public class Temperature{
+public class Temperature implements IData{
     int value;
 
     public void setDate(String date) {
@@ -41,6 +41,6 @@ public class Temperature{
 
     @Override
     public String toString() {
-        return  "UUID : " + UUID + ", Date : " + date + ", Value :" + value;
+        return  "UUID : " + UUID + ", Date : " + date + ", Temperature Value :" + value;
     }
 }

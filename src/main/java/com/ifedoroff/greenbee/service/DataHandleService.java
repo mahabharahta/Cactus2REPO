@@ -18,21 +18,32 @@ public class DataHandleService {
     @Autowired
     private HumidityDataRepository humidityDataRepository;
 
+    @Autowired
+    private LightDataRepository lightDataRepository;
+
     public void addDataToBase(String data) throws  Exception
     {
+        String date = new java.util.Date().toString();
         ObjectMapper mapper = new ObjectMapper();
         SensorData obj = mapper.readValue(data,SensorData.class);
+
         Temperature temperature = new Temperature();
         temperature.setValue(obj.getTemperature());
-        temperature.setDate(new java.util.Date().toString());
-        //temperature.setUUID();
+        temperature.setDate(date);
+        temperature.setUUID(obj.getId());
         temperatureDataRepository.insert(temperature);
 
         Humidity humidity = new Humidity();
         humidity.setValue(obj.getHumidity());
-        humidity.setDate(new java.util.Date().toString());
-        //humidity.setUUID();
+        humidity.setDate(date);
+        humidity.setUUID(obj.getId());
         humidityDataRepository.insert(humidity);
+
+        Light light = new Light();
+        light.setValue(obj.getLight());
+        light.setDate(date);
+        light.setUUID(obj.getId());
+        lightDataRepository.insert(light);
 
     }
 }
