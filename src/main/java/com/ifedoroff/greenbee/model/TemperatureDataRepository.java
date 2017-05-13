@@ -11,5 +11,4 @@ public interface  TemperatureDataRepository extends MongoRepository<Temperature,
 
     List<Temperature> findByDate(String uuid, String date);
 
-    Temperature findTopByOrderByCreatedDesc();
 }

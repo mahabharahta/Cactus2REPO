@@ -1,12 +1,10 @@
 package com.ifedoroff.greenbee.controller;
 
-import com.ifedoroff.greenbee.model.HumidityDataRepository;
-import com.ifedoroff.greenbee.model.PageResponseBody;
-import com.ifedoroff.greenbee.model.SearchRealTemperatureCriteria;
-import com.ifedoroff.greenbee.model.TemperatureDataRepository;
+import com.ifedoroff.greenbee.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +25,17 @@ public class RealTimeMonitorController {
     private TemperatureDataRepository temperatureDataRepository;
 
     @PostMapping("/api/realtime/searchfirst")
-    public ResponseEntity<?> getSearchResultViaAjax(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
+    public ResponseEntity<?> getSearchResult(@Valid @RequestBody SearchRealTemperatureCriteria search, Errors errors)
     {
         PageResponseBody respond = new PageResponseBody();
         //logic
+        return  ResponseEntity.ok(respond);
+    }
+
+    @GetMapping("/api/test")
+    public  ResponseEntity<?> getTest(@RequestBody SearchRealTemperatureCriteria search, Errors errors)
+    {
+        PageResponseBody respond = new PageResponseBody();
         return  ResponseEntity.ok(respond);
     }
 }
