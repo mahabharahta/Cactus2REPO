@@ -1,17 +1,18 @@
 .menu {
     list-style-type: none;
-    margin: 0;
+
     padding: 0;
     width: 25%;
     background-color: #f2f2f2;
     position: fixed;
     height: 100%;
     overflow: auto;
+    font-size:1.5em;
 }
 
 li a {
     display: block;
-    color: #000;
+    color: rgba(0, 0, 0, 0.79);
     padding: 8px 16px;
     padding-left: 2%;
     text-decoration: none;
@@ -59,8 +60,10 @@ th {
     background-color: #4CAF50;
     color: white;
 }
+
 h1 {
     float: right;
+    margin-right: 2%;
 }
 
 .index {
@@ -80,4 +83,27 @@ h1 {
 
 .greenhouseinfo {
     margin-top: 2%;
+}
+
+.gaugetemperature {
+    margin-top:3%;
+    height: 440px;
+    width: 100%;
+    float: left;
+}
+
+.gaugehumidity {
+    height: 440px;
+    width: 100%;
+    float: left;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
 }

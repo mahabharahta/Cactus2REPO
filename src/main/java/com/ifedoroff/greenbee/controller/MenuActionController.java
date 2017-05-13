@@ -89,7 +89,10 @@ public class MenuActionController {
                 "            <p class=\"index\">"+humidity+"</p>\n" +
                 "            <p class=\"name\">Температура</p>\n" +
                 "        </div>\n" +
-                "</div>";
+                "      </div>\n" +
+                "        <div class=\"gaugetemperature\"></div>\n" +
+                "        <div class=\"gaugehumidity\"></div>\n" +
+                "      </div>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);
