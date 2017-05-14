@@ -119,7 +119,8 @@ public class MenuActionController {
         ChartService chartService = SpringBootApplication.ctx.getBean(ChartService.class);
 
         List<Temperature> temperatures = chartService.getValues(Temperature.class);
-        List<Integer> averageTemperature = new ArrayList();
+        List<TemperatureChart> averageTemperature = new ArrayList();
+        int cntr = 0;
         for (int i = 0; i < 6;i++)
         {
             List<Temperature> t = temperatures.subList(i,i+10);
@@ -129,8 +130,54 @@ public class MenuActionController {
                 sum += temp.getValue();
             }
             int average = sum/10;
+            TemperatureChart c = new TemperatureChart();
+            c.setTime(cntr + ":00");
+            c.setTmp(average);
+            averageTemperature.add(c);
+            cntr+=4;
         }
+        respond.setTemperatures(averageTemperature);
 
+        List<Humidity> humidities = chartService.getValues(Humidity.class);
+        List<HumidityChart> averageHumidity = new ArrayList();
+        cntr = 0;
+        for (int i = 0; i < 6;i++)
+        {
+            List<Humidity> t = humidities.subList(i,i+10);
+            int sum = 0;
+            for (Humidity temp : t)
+            {
+                sum += temp.getValue();
+            }
+            int average = sum/10;
+            HumidityChart c = new HumidityChart();
+            c.setTime(cntr + ":00");
+            c.setHmd(average);
+            averageHumidity.add(c);
+            cntr+=4;
+        }
+        respond.setHumilities(averageHumidity);
+
+
+        List<Light> lights = chartService.getValues(Light.class);
+        List<LightChart> averageLight = new ArrayList();
+        cntr = 0;
+        for (int i = 0; i < 6;i++)
+        {
+            List<Light> t = lights.subList(i,i+10);
+            int sum = 0;
+            for (Light temp : t)
+            {
+                sum += temp.getValue();
+            }
+            int average = sum/10;
+            LightChart c = new LightChart();
+            c.setTime(cntr + ":00");
+            c.setLmt(average);
+            averageLight.add(c);
+            cntr+=4;
+        }
+        respond.setLights(averageLight);
 
         respond.setMsg("success");
         return  ResponseEntity.ok(respond);

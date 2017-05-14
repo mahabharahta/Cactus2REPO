@@ -9,15 +9,15 @@ var info_active = false;
 var dataSourceTemperature = [{
     name: 'Current',
     mean: 35,
-    min: 28,
-    max: 38
+    min: 5,
+    max: 22
 }];
 
 var dataSourceHumidity = [{
     name: 'Current',
     mean: 83,
-    min: 75,
-    max: 95
+    min: 70,
+    max: 85
 }];
 
 var dataSourceIllumination = [{
@@ -141,6 +141,7 @@ function  click_info(identifier) {
         success: function (data) {
                 var json = JSON.parse(JSON.stringify(data));
                 $('#main_content').html(json["result"]);
+
 
             var gaugetemperature = $(".gaugetemperature").dxCircularGauge({
                 scale: {
@@ -307,6 +308,31 @@ function  click_info(identifier) {
                 },
                 title: "Освещенность"
             }).dxChart("instance");
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/navigation/charts",
+                data: JSON.stringify(search),
+                dataType: 'json',
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    var json = JSON.parse(JSON.stringify(data));
+                    $("#illuminationchart").dxChart({
+                        dataSource: json["lights"]
+                    }).dxChart("instance");
+                    $("#humiditychart").dxChart({
+                        dataSource: json["humidities"]
+                    }).dxChart("instance");
+                    $("#temperaturechart").dxChart({
+                        dataSource: json["temperatures"]
+                    }).dxChart("instance");
+                },
+                error: function (e) {
+                    alert(e);
+                }
+            });
+
         },
         error: function (e) {
 

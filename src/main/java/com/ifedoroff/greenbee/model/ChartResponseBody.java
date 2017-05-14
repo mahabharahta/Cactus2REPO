@@ -7,31 +7,31 @@ import java.util.List;
  */
 public class ChartResponseBody {
     String msg;
-    List<Temperature> temperatures;
-    List<Light> lights;
-    List<Humidity> humidities;
+    List<TemperatureChart> temperatures;
+    List<LightChart> lights;
+    List<HumidityChart> humidities;
 
-    public List<Humidity> getHumidities() {
+    public List<HumidityChart> getHumidities() {
         return humidities;
     }
 
-    public List<Light> getLights() {
+    public List<LightChart> getLights() {
         return lights;
     }
 
-    public List<Temperature> getTemperatures() {
+    public List<TemperatureChart> getTemperatures() {
         return temperatures;
     }
 
-    public void setHumidities(List<Humidity> humidities) {
+    public void setHumilities(List<HumidityChart> humidities) {
         this.humidities = humidities;
     }
 
-    public void setLights(List<Light> lights) {
+    public void setLights(List<LightChart> lights) {
         this.lights = lights;
     }
 
-    public void setTemperatures(List<Temperature> temperatures) {
+    public void setTemperatures(List<TemperatureChart> temperatures) {
         this.temperatures = temperatures;
     }
 
