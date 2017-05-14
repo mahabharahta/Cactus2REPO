@@ -4,7 +4,11 @@
 
 var uuid = "54947df8-0e9e-4471-a2f9-9af509fb5889";
 
+var curr_name = "";
+
 var info_active = false;
+
+var table_active = false;
 
 var dataSourceTemperature = [{
     name: 'Current',
@@ -90,6 +94,7 @@ var dataSourceIlluminationChart = [{
 function updateInfo() {
     var search = {}
     search["account"] = uuid;
+    search["name"] = curr_name;
     if (info_active == true)
     {
         $.ajax({
@@ -125,11 +130,13 @@ function updateInfo() {
 
 
 }
-
 function  click_info(identifier) {
+    curr_name = identifier;
     info_active = true;
+    table_active = false;
     var search = {}
     search["account"] = uuid;
+    search["name"] = curr_name;
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -318,7 +325,6 @@ function  click_info(identifier) {
                 timeout: 600000,
                 success: function (data) {
                     var json = JSON.parse(JSON.stringify(data));
-                    alert(JSON.stringify(data));
                     $("#illuminationchart").dxChart({
                         dataSource: json["lights"]
                     }).dxChart("instance");
@@ -345,6 +351,7 @@ function  click_info(identifier) {
 function feed_click()
 {
     info_active = false;
+    table_active = false;
     var search = {}
     search["account"] = uuid;
 
@@ -366,10 +373,37 @@ function feed_click()
         }
     });
 }
+function  update_table() {
+    var search = {}
+    search["account"] = uuid;
+    if (table_active == true)
+    {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/api/navigation/all",
+            data: JSON.stringify(search),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
 
+                var json = JSON.parse(JSON.stringify(data));
+                $('#main_content').html(json["result"]);
+
+            },
+            error: function (e) {
+                alert(e);
+            }
+        });
+    }
+
+
+}
 function all_click()
 {
     info_active = false;
+    table_active = true;
     var search = {}
     search["account"] = uuid;
 

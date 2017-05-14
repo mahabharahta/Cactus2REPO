@@ -39,6 +39,11 @@ public class MenuActionController {
         }
 
         //List<Device> devices = devicesRepository.findAll();
+        RealTimeService realTimeService = SpringBootApplication.ctx.getBean(RealTimeService.class);
+        SensorData sensorData = realTimeService.getSearchResult(search.getAccount());
+        int temperature = sensorData.getTemperature();
+        int humidity = sensorData.getHumidity();
+        int illumination = sensorData.getLight();
         String page = "<div class=\"all\">\n" +
                 "        <table border=\"1\">\n" +
                 "            <tr>\n" +
@@ -47,20 +52,14 @@ public class MenuActionController {
                 "                <th>Дата посадки</th>\n" +
                 "                <th>Текущая температура</th>\n" +
                 "                <th>Текущая влажность</th>\n" +
+                "                <th>Текущая освещенность</th>\n" +
                 "            </tr>\n" +
-                "            <tr><td><a class= \"#greenhouseinfo\" data-id=\"Теплица1\" onclick=\"click_info(this.getAttribute('data-id'));\">Теплица 1</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 2</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 3</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 4</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 5</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 6</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 7</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 8</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
-                "            <tr><td>Теплица 9</td><td>Салаты</td><td>21.02.2017</td><td>23</td><td>80</td></tr>\n" +
+                "            <tr><td><a class= \"#greenhouseinfo\" data-id=\"Теплица 1\" onclick=\"click_info(this.getAttribute('data-id'));\"><p class=\"greenhouseinfolink\">Теплица 1</p></a></td><td>Салаты</td><td>14.05.2017</td><td>"+temperature+"</td><td>"+humidity+"</td><td>"+illumination+"</td></tr>\n" +
+                "            <tr><td><a class= \"#greenhouseinfo\" data-id=\"Теплица 2\" onclick=\"click_info(this.getAttribute('data-id'));\"><p class=\"greenhouseinfolink\">Теплица 2</p></a></td><td>Помидоры</td><td>14.05.2017</td><td>"+(temperature+1)+"</td><td>"+(humidity+1)+"</td><td>"+(illumination+1)+"</td></tr>\n" +
+                "            <tr><td><a class= \"#greenhouseinfo\" data-id=\"Теплица 3\" onclick=\"click_info(this.getAttribute('data-id'));\"><p class=\"greenhouseinfolink\">Теплица 3</p></a></td><td>Огурцы</td><td>14.05.2017</td><td>"+(temperature+4)+"</td><td>"+(humidity+2)+"</td><td>"+(illumination+4)+"</td></tr>\n" +
                 "\n" +
                 "        </table>\n" +
                 "    </div>";
-        // build page
 
         respond.setResult(page);
         respond.setMsg("success");
@@ -71,7 +70,7 @@ public class MenuActionController {
 
 
     @PostMapping("/api/navigation/inforeal")
-    public ResponseEntity<?> getInfoUpdate(@RequestBody DevicesSearchCriteria search, Errors errors)
+    public ResponseEntity<?> getInfoUpdate(@RequestBody DevicesNameSearchCriteria search, Errors errors)
     {
         PageDataResponseBody respond = new PageDataResponseBody();
         if (errors.hasErrors())
@@ -88,7 +87,7 @@ public class MenuActionController {
         respond.setLight(illumination);
         respond.setHumidity(humidity);
         respond.setTemperature(temperature);
-        String page = "        <h1>Теплица 1</h1>\n" +
+        String page = "        <h1>"+search.getName()+"</h1>\n" +
                 "        <div class=\"temperature infoitem\">\n" +
                 "            <p class=\"index\">"+temperature+" °C</p>\n" +
                 "            <p class=\"name\">Температура</p>\n" +
@@ -184,7 +183,7 @@ public class MenuActionController {
     }
 
     @PostMapping("/api/navigation/info")
-    public ResponseEntity<?> getInfo(@RequestBody DevicesSearchCriteria search, Errors errors)
+    public ResponseEntity<?> getInfo(@RequestBody DevicesNameSearchCriteria search, Errors errors)
     {
         PageResponseBody respond = new PageResponseBody();
         if (errors.hasErrors())
@@ -199,7 +198,7 @@ public class MenuActionController {
         int humidity = sensorData.getHumidity();
         int illumination = sensorData.getLight();
         String page = "<div class=\"greenhouseinfo\" id=\"greenhouseinfo\">\n" +
-                "        <h1>Теплица 1</h1>\n" +
+                "        <h1>"+search.getName()+"</h1>\n" +
                 "        <div class=\"temperature infoitem\">\n" +
                 "            <p class=\"index\">"+humidity+" °C</p>\n" +
                 "            <p class=\"name\">Температура</p>\n" +

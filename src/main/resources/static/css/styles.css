@@ -10,6 +10,11 @@
     font-size:1.5em;
 }
 
+a {
+    text-decoration:none;
+    cursor: pointer
+}
+
 li a {
     display: block;
     color: rgba(0, 0, 0, 0.79);
@@ -21,6 +26,7 @@ li a {
 li a.active {
     background-color: #4CAF50;
     text-decoration: none;
+    color: rgba(0, 0, 0, 0.79);
 }
 
 li a:hover:not(.active) {
@@ -42,6 +48,11 @@ li a:hover:not(.active) {
     list-style-type: none;
 }
 
+.greenhouseinfolink {
+    padding-top: 4%;
+    color: rgba(0, 0, 0, 0.79);
+}
+
 table {
     padding-top: 2%;
     border-collapse: collapse;
@@ -59,6 +70,7 @@ tr:nth-child(even){background-color: #f2f2f2}
 th {
     background-color: #4CAF50;
     color: white;
+    font-weight:100;
 }
 
 h1 {
