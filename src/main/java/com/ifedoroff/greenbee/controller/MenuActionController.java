@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -216,6 +218,12 @@ public class MenuActionController {
         int temperature = sensorData.getTemperature();
         int humidity = sensorData.getHumidity();
         int illumination = sensorData.getLight();
+
+        String path = "d:\\Local\\";
+        File [] files = new File(path).listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename)
+            { return filename.endsWith(".pdf"); }
+        } );
         String page = "<div class=\"greenhouseinfo\" id=\"greenhouseinfo\">\n" +
                 "        <h1>"+search.getName()+"</h1>\n" +
                 "        <div class=\"temperature infoitem\">\n" +
@@ -245,7 +253,7 @@ public class MenuActionController {
                 "            </div>\n" +
                 "     <div id=\"map\"></div>\n" +
                 "     <div id=\"show-tooltips\"></div>"+
-                "      <button onclick=\"make_pdf()\">Test</button>";
+                "     <div id=\"make-pdf\"></div>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);
@@ -376,4 +384,44 @@ public class MenuActionController {
 
         return  ResponseEntity.ok(respond);
     }
+
+    @PostMapping("/api/navigation/report")
+    public ResponseEntity<?> getReports(@RequestBody DevicesSearchCriteria search, Errors errors)
+    {
+        System.out.println(search.getAccount() + " request");
+        PageResponseBody respond = new PageResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+
+
+        String path = "d:\\Local\\";
+        File[] files = new File(path).listFiles(new FilenameFilter() {
+            public boolean accept(File dir, String filename)
+            { return filename.endsWith(".pdf"); }
+        } );
+
+        String page = " <div class=\"reports\">\n" +
+                "        <ul class = \"feedmenu\">\n";
+
+        for (File f : files)
+        {
+            page+= "            <li class=\"reportslistitem\">\n" +
+                    "                <p>"+f.getName()+"</a></p>\n" +
+                    "            </li>\n";
+
+        }
+        page +="        </ul>\n" +
+                "</div>";
+
+        // build page
+
+        respond.setResult(page);
+        respond.setMsg("success");
+
+        return  ResponseEntity.ok(respond);
+    }
+
 }
