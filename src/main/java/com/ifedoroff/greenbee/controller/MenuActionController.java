@@ -294,7 +294,7 @@ public class MenuActionController {
             document.open();
             Paragraph preface = new Paragraph();
             preface.add(new Paragraph(" "));
-             preface.add(new Paragraph("Report", catFont));
+            preface.add(new Paragraph("Report", catFont));
             preface.add(new Paragraph(" "));
             preface.add(new Paragraph("Account : " + searchCriteria.getAccount() , catFont));
             preface.add(new Paragraph(" "));
