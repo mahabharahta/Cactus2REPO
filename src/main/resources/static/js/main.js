@@ -10,6 +10,8 @@ var info_active = false;
 
 var table_active = false;
 
+var feed_active = false;
+
 var dataSourceTemperature = [{
     name: 'Current',
     mean: 35,
@@ -121,8 +123,6 @@ function updateInfo() {
             },
             error: function (e) {
 
-                alert(e);
-
             }
 
         });
@@ -134,6 +134,7 @@ function  click_info(identifier) {
     curr_name = identifier;
     info_active = true;
     table_active = false;
+    feed_active = false;
     var search = {}
     search["account"] = uuid;
     search["name"] = curr_name;
@@ -381,22 +382,44 @@ function  click_info(identifier) {
                     }).dxChart("instance");
                 },
                 error: function (e) {
-                    alert(e);
                 }
             });
 
         },
         error: function (e) {
 
-            alert(e);
 
         }
     });
+}
+function  feed_update() {
+    var search = {}
+    search["account"] = uuid;
+    if (feed_active == true)
+    {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/api/navigation/feed",
+            data: JSON.stringify(search),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                var json = JSON.parse(JSON.stringify(data));
+                $('#main_content').html(json["result"]);
+
+            },
+            error: function (e) {
+            }
+        });
+    }
 }
 function feed_click()
 {
     info_active = false;
     table_active = false;
+    feed_active = true;
     var search = {}
     search["account"] = uuid;
 
@@ -414,7 +437,6 @@ function feed_click()
 
         },
         error: function (e) {
-           alert(e);
         }
     });
 }
@@ -438,7 +460,6 @@ function  update_table() {
 
             },
             error: function (e) {
-                alert(e);
             }
         });
     }
@@ -448,6 +469,7 @@ function  update_table() {
 
 function make_pdf()
 {
+
     var search = {}
     search["account"] = uuid;
     search["name"] = curr_name;
@@ -469,11 +491,14 @@ function make_pdf()
 }
 
 function download_pdf(data) {
-    window.location = "/pdf/" + data;
+    window.location = "/download/pdf/" + data;
 }
 
 function get_pdf_files()
 {
+    info_active = false;
+    table_active = false;
+    feed_active = false;
     var search = {}
     search["account"] = uuid;
     search["name"] = curr_name;
@@ -499,6 +524,7 @@ function all_click()
 {
     info_active = false;
     table_active = true;
+    feed_active = false;
     var search = {}
     search["account"] = uuid;
 
@@ -517,7 +543,6 @@ function all_click()
 
         },
         error: function (e) {
-            alert(e);
         }
     });
 }
@@ -526,6 +551,7 @@ function report_click()
 {
     info_active = false;
     table_active = false;
+    feed_active = false;
     var search = {}
     search["account"] = uuid;
 
@@ -543,7 +569,6 @@ function report_click()
 
         },
         error: function (e) {
-            alert(e);
         }
     });
 }

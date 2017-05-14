@@ -18,7 +18,7 @@ public class MailService {
     public static void send(String to, String msg) {
 
         final String username = "rostik.nikolaenko@gmail.com";
-        final String password = "";
+        final String password = "ghbdtnkibernet5847";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -38,9 +38,9 @@ public class MailService {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("rostik.nikolaenko@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse("yankobogdan@gmail.com"));
-            message.setSubject("Notificatewion");
-            message.setText("Hellof");
+                    InternetAddress.parse(to));
+            message.setSubject("Green Bee Notification");
+            message.setText(msg);
 
             Transport.send(message);
 

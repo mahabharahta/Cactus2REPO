@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributeView;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -278,14 +287,14 @@ public class MenuActionController {
                 Font.BOLD);
 
         Document document = new Document();
-        String file = "d:\\Local\\" + searchCriteria.getName() + ".pdf";
+        String name = "GreenHouse"+searchCriteria.getName().charAt(searchCriteria.getName().length()-1);
+        String file = "d:\\Local\\" + name + ".pdf";
         try {
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             Paragraph preface = new Paragraph();
             preface.add(new Paragraph(" "));
-            // Lets write a big header
-            preface.add(new Paragraph("Report", catFont));
+             preface.add(new Paragraph("Report", catFont));
             preface.add(new Paragraph(" "));
             preface.add(new Paragraph("Account : " + searchCriteria.getAccount() , catFont));
             preface.add(new Paragraph(" "));
@@ -347,37 +356,35 @@ public class MenuActionController {
             respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
             return ResponseEntity.badRequest().body(respond);
         }
-
+        NotificationRepository rp = SpringBootApplication.ctx.getBean(NotificationRepository.class);
+        List<Notification> notifications = rp.findAll();
             //List<Device> devices = devicesRepository.findAll();
         String page = " <div class=\"feed\">\n" +
-                "        <ul class = \"feedmenu\">\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 1 </a></p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 2</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 3</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 4</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 5</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 6</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 7</p>\n" +
-                "            </li>\n" +
-                "            <li class=\"greenhouseitem\">\n" +
-                "                <p>Теплица 8</p>\n" +
-                "            </li>\n" +
-                "        </ul>\n" +
+                "        <ul class = \"feedmenu\">\n";
+        for (Notification notification : notifications)
+        {
+            /*String newDate = "";
+            try {
+
+                DateFormat df = new SimpleDateFormat("EEE MMM dd kk:mm:ss zzz yyyy");
+                Date result =  df.parse(notification.getDate());
+                Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                newDate = formatter.format(result);
+            }
+            catch (Exception e)
+            {
+                System.out.println(e);
+            }*/
+
+            page += "            <li class=\"greenhouseitem\">\n" +
+                    "                <div class=\"notificationname\">Теплица 1</div>\n" +
+                    "                <div class=\"notificationtime\">"+notification.getDate()+"</div>\n" +
+                    "                <div class=\"notificationtext\">"+notification.getMessage()+"</div>\n" +
+                    "            </li>\n" ;
+        }
+
+                page +="        </ul>\n" +
                 "</div>";
-        // build page
 
         respond.setResult(page);
         respond.setMsg("success");
@@ -408,8 +415,19 @@ public class MenuActionController {
 
         for (File f : files)
         {
+            /*Path p = Paths.get(f.getPath());
+            try {
+                BasicFileAttributes view
+                        = Files.getFileAttributeView(p, BasicFileAttributeView.class).readAttributes();
+                String time =  view.lastModifiedTime().toString();
+                System.out.println(time);
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }*/
             page+= "            <li class=\"reportslistitem\">\n" +
-                    "                <p>"+f.getName()+"</a></p>\n" +
+                    "                <p><a class=\"reportdownload\" data-id=\""+f.getName()+"\"  onclick=\"download_pdf(this.getAttribute('data-id'))\">"+f.getName()+"</a></p>\n" +
                     "            </li>\n";
 
         }

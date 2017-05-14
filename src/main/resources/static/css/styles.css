@@ -47,11 +47,28 @@ li a:hover:not(.active) {
 }
 
 .greenhouseitem {
-    padding-top: 2%;
+    width: 100%;
     font-size: 1.5em;
-    text-align: center;
     list-style-type: none;
 }
+
+
+.notificationname {
+    width: 15%
+
+}
+
+.notificationtime {
+    width: 30%;
+    float:left;
+}
+
+.notificationtext {
+    width:70%;
+
+}
+
+.greenhouseitem:nth-child(even) {background-color: #f2f2f2}
 
 .greenhouseinfolink {
     padding-top: 4%;
@@ -179,12 +196,13 @@ h1 {
 }
 
 .reports {
+    margin-top:1%;
     margin-left:1%;
     font-size:2em;
-    float: left;
-
+    text-align:center;
 }
 li {
     list-style-type: none;
 }
+
 .reportslistitem:nth-child(even) {background-color: #f2f2f2}

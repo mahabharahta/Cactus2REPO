@@ -4,6 +4,8 @@ package com.ifedoroff.greenbee.controller;
  * Created by Rostik on 13.05.2017.
  */
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +31,7 @@ public class DownloadReportController {
 
         Path file = Paths.get(path, fileName);
         if (Files.exists(file)) {
-            System.out.println("Good");
+
             response.setContentType("application/pdf");
             response.setContentType("application/x-download"); response.setHeader("Content-disposition", "attachment; filename=" + fileName);
             try {

@@ -10,6 +10,16 @@ public class Notification {
     String name;
     String message;
     String uuid;
+    String date;
+
+    public String getDate()
+    {
+        return  date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public String getUuid() {
         return uuid;
