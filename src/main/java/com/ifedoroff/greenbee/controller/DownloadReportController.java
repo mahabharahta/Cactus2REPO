@@ -22,11 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DownloadReportController {
 
     @GetMapping("/pdf/{fileName:.+}")
-    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) {
 
+    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) {
+        String path = "d:\\Local\\";
         System.out.println("Downloading file :- " + fileName);
 
-        Path file = Paths.get("d:\\", fileName);
+        Path file = Paths.get(path, fileName);
         if (Files.exists(file)) {
             System.out.println("Good");
             response.setContentType("application/pdf");

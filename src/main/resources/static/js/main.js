@@ -461,6 +461,34 @@ function make_pdf()
 
     });
 }
+
+function download_pdf(data) {
+    window.location = "/pdf/" + data;
+}
+
+function get_pdf_files()
+{
+    var search = {}
+    search["account"] = uuid;
+    search["name"] = curr_name;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "api/pdf/get",
+        data: JSON.stringify(search),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            var json = JSON.parse(JSON.stringify(data));
+            $('#main_content').html(json["result"]);
+        },
+        error: function (e) {
+        }
+
+    });
+}
 function all_click()
 {
     info_active = false;

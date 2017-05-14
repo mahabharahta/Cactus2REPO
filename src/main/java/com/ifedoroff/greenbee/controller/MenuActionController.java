@@ -250,7 +250,17 @@ public class MenuActionController {
         respond.setResult(page);
         return  ResponseEntity.ok(respond);
     }
-
+    @PostMapping("api/pdf/get")
+    public  ResponseEntity getPdfFiles(@RequestBody DevicesNameSearchCriteria searchCriteria, Errors errors)
+    {
+        PageResponseBody respond = new PageResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+        return  ResponseEntity.ok(respond);
+    }
     @PostMapping("api/pdf/create")
     public  ResponseEntity formPdf(@RequestBody DevicesNameSearchCriteria searchCriteria, Errors errors)
     {
@@ -268,8 +278,10 @@ public class MenuActionController {
             preface.add(new Paragraph(" "));
             // Lets write a big header
             preface.add(new Paragraph("Report", catFont));
+            preface.add(new Paragraph(" "));
             preface.add(new Paragraph("Account : " + searchCriteria.getAccount() , catFont));
-            preface.add(new Paragraph("Name : " + searchCriteria.getName() , catFont));
+            preface.add(new Paragraph(" "));
+            preface.add(new Paragraph("Name : GreenHouse" + searchCriteria.getName() , catFont));
 
             preface.add(new Paragraph((" ")));
 
