@@ -439,6 +439,28 @@ function  update_table() {
 
 
 }
+
+function make_pdf()
+{
+    var search = {}
+    search["account"] = uuid;
+    search["name"] = curr_name;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "api/pdf/create",
+        data: JSON.stringify(search),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+        },
+        error: function (e) {
+        }
+
+    });
+}
 function all_click()
 {
     info_active = false;

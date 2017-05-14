@@ -4,6 +4,7 @@ import com.ifedoroff.greenbee.SpringBootApplication;
 import com.ifedoroff.greenbee.model.*;
 import com.ifedoroff.greenbee.service.ChartService;
 import com.ifedoroff.greenbee.service.RealTimeService;
+import com.twilio.base.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -16,6 +17,24 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import java.io.FileOutputStream;
+import java.util.Date;
+
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 /**
  * Created by Rostik on 13.05.2017.
  */
@@ -117,7 +136,7 @@ public class MenuActionController {
         }
         ChartService chartService = SpringBootApplication.ctx.getBean(ChartService.class);
 
-        List<Temperature> temperatures = chartService.getValues(Temperature.class);
+        List<Temperature> temperatures = chartService.getValues(Temperature.class,60);
         List<TemperatureChart> averageTemperature = new ArrayList();
         int cntr = 0;
         for (int i = 0; i < 6;i++)
@@ -137,7 +156,7 @@ public class MenuActionController {
         }
         respond.setTemperatures(averageTemperature);
 
-        List<Humidity> humidities = chartService.getValues(Humidity.class);
+        List<Humidity> humidities = chartService.getValues(Humidity.class,60);
         List<HumidityChart> averageHumidity = new ArrayList();
         cntr = 0;
         for (int i = 0; i < 6;i++)
@@ -158,7 +177,7 @@ public class MenuActionController {
         respond.setHumilities(averageHumidity);
 
 
-        List<Light> lights = chartService.getValues(Light.class);
+        List<Light> lights = chartService.getValues(Light.class,60);
         List<LightChart> averageLight = new ArrayList();
         cntr = 0;
         for (int i = 0; i < 6;i++)
@@ -225,12 +244,79 @@ public class MenuActionController {
                 "                <div id=\"types\"></div>\n" +
                 "            </div>\n" +
                 "     <div id=\"map\"></div>\n" +
-                "     <div id=\"show-tooltips\"></div>";
+                "     <div id=\"show-tooltips\"></div>"+
+                "      <button onclick=\"make_pdf()\">Test</button>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);
     }
 
+    @PostMapping("api/pdf/create")
+    public  ResponseEntity formPdf(@RequestBody DevicesNameSearchCriteria searchCriteria, Errors errors)
+    {
+        PageResponseBody response = new PageResponseBody();
+        ChartService chartService = SpringBootApplication.ctx.getBean(ChartService.class);
+        Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
+                Font.BOLD);
+
+        Document document = new Document();
+        String file = "d:\\Local\\" + searchCriteria.getName() + ".pdf";
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(file));
+            document.open();
+            Paragraph preface = new Paragraph();
+            preface.add(new Paragraph(" "));
+            // Lets write a big header
+            preface.add(new Paragraph("Report", catFont));
+            preface.add(new Paragraph("Account : " + searchCriteria.getAccount() , catFont));
+            preface.add(new Paragraph("Name : " + searchCriteria.getName() , catFont));
+
+            preface.add(new Paragraph((" ")));
+
+            preface.add(new Paragraph("Temperatures : " , catFont));
+            preface.add(new Paragraph((" ")));
+
+            List<Temperature> temperatures = chartService.getValues(Temperature.class, 10);
+            for (Temperature t : temperatures)
+            {
+                preface.add(new Paragraph("{ date = " +  t.getDate() + ", value = " + t.getValue() + "}" , catFont));
+                preface.add(new Paragraph((" ")));
+            }
+
+            preface.add(new Paragraph("Light : " , catFont));
+            preface.add(new Paragraph((" ")));
+
+            List<Light> lights = chartService.getValues(Light.class, 10);
+            for (Light t : lights)
+            {
+                preface.add(new Paragraph("{ date = " +  t.getDate() + ", value = " + t.getValue() + "}" , catFont));
+                preface.add(new Paragraph((" ")));
+            }
+
+
+            preface.add(new Paragraph("Humidity : " , catFont));
+            preface.add(new Paragraph((" ")));
+            List<Humidity> humidities = chartService.getValues(Humidity.class, 10);
+            for (Humidity t : humidities)
+            {
+                preface.add(new Paragraph("{ date = " +  t.getDate() + ", value = " + t.getValue() + "}" , catFont));
+                preface.add(new Paragraph((" ")));
+            }
+            document.add(preface);
+            document.close();
+            System.out.println("Ended form document");
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+            response.setMsg("bad");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        response.setMsg("success");
+        response.setResult("sucess");
+        return  ResponseEntity.ok(response);
+    }
     @PostMapping("/api/navigation/feed")
     public ResponseEntity<?> getFeedback(@RequestBody DevicesSearchCriteria search, Errors errors)
     {

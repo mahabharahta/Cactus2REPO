@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class ChartService {
 
-    public <T extends IData> List<T> getValues(Class<T> type)
+    public <T extends IData> List<T> getValues(Class<T> type,int num)
     {
         MongoOperations mongoOperations = SpringBootApplication.ctx.getBean(MongoOperations.class);
         Query q = new Query();
-        q.limit(60);
+        q.limit(num);
         q.with(new Sort(Sort.Direction.DESC, "date"));
         List<T> t = mongoOperations.find(q,type);
         return  t;
