@@ -354,6 +354,12 @@ function  click_info(identifier) {
                     mapWidget.option("markers", newMarkers);
                 }
             });
+
+            $("#make-pdf").dxButton({
+                text: "Сформировать отчет",
+                onClick: make_pdf()
+            });
+
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
@@ -461,6 +467,34 @@ function make_pdf()
 
     });
 }
+
+function download_pdf(data) {
+    window.location = "/pdf/" + data;
+}
+
+function get_pdf_files()
+{
+    var search = {}
+    search["account"] = uuid;
+    search["name"] = curr_name;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "api/pdf/get",
+        data: JSON.stringify(search),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            var json = JSON.parse(JSON.stringify(data));
+            $('#main_content').html(json["result"]);
+        },
+        error: function (e) {
+        }
+
+    });
+}
 function all_click()
 {
     info_active = false;
@@ -478,6 +512,32 @@ function all_click()
         timeout: 600000,
         success: function (data) {
 
+            var json = JSON.parse(JSON.stringify(data));
+            $('#main_content').html(json["result"]);
+
+        },
+        error: function (e) {
+            alert(e);
+        }
+    });
+}
+
+function report_click()
+{
+    info_active = false;
+    table_active = false;
+    var search = {}
+    search["account"] = uuid;
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/api/navigation/report",
+        data: JSON.stringify(search),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
             var json = JSON.parse(JSON.stringify(data));
             $('#main_content').html(json["result"]);
 

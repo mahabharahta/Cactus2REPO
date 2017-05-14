@@ -28,6 +28,12 @@ li a.active {
     color: rgba(0, 0, 0, 0.79);
 }
 
+li a:not(.active) {
+    background-color: #f2f2f2;
+
+}
+
+
 li a:hover:not(.active) {
     background-color: #555;
     color: white;
@@ -158,6 +164,12 @@ h1 {
     width: 30%;
 }
 
+#make-pdf {
+    margin-top: 1%;
+    margin-left: 10%;
+    width: 25%;
+}
+
 #map {
     margin-top:2em;
     margin-left:10%;
@@ -166,3 +178,14 @@ h1 {
 #show-tooltips {
     margin-bottom: 1%;
 }
+
+.reports {
+    margin-left:1%;
+    font-size:2em;
+    float: left;
+
+}
+li {
+    list-style-type: none;
+}
+.reportslistitem:nth-child(even) {background-color: #f2f2f2}

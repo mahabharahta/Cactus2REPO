@@ -245,7 +245,7 @@ public class MenuActionController {
                 "            </div>\n" +
                 "     <div id=\"map\"></div>\n" +
                 "     <div id=\"show-tooltips\"></div>"+
-                "      <button onclick=\"make_pdf()\">Test</button>";
+                "     <div id=\"make-pdf\"></div>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);
@@ -376,4 +376,53 @@ public class MenuActionController {
 
         return  ResponseEntity.ok(respond);
     }
+
+    @PostMapping("/api/navigation/report")
+    public ResponseEntity<?> getReports(@RequestBody DevicesSearchCriteria search, Errors errors)
+    {
+        System.out.println(search.getAccount() + " request");
+        PageResponseBody respond = new PageResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+
+        //List<Device> devices = devicesRepository.findAll();
+        String page = " <div class=\"reports\">\n" +
+                "        <ul class = \"feedmenu\">\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 1 </a></p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 2</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 3</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 4</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 5</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 6</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 7</p>\n" +
+                "            </li>\n" +
+                "            <li class=\"reportslistitem\">\n" +
+                "                <p>Теплица 8</p>\n" +
+                "            </li>\n" +
+                "        </ul>\n" +
+                "</div>";
+        // build page
+
+        respond.setResult(page);
+        respond.setMsg("success");
+
+        return  ResponseEntity.ok(respond);
+    }
+
 }
