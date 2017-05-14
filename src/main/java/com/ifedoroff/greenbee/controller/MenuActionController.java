@@ -2,6 +2,7 @@ package com.ifedoroff.greenbee.controller;
 
 import com.ifedoroff.greenbee.SpringBootApplication;
 import com.ifedoroff.greenbee.model.*;
+import com.ifedoroff.greenbee.service.ChartService;
 import com.ifedoroff.greenbee.service.RealTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -67,6 +70,72 @@ public class MenuActionController {
 
 
 
+    @PostMapping("/api/navigation/inforeal")
+    public ResponseEntity<?> getInfoUpdate(@RequestBody DevicesSearchCriteria search, Errors errors)
+    {
+        PageDataResponseBody respond = new PageDataResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+
+        RealTimeService realTimeService = SpringBootApplication.ctx.getBean(RealTimeService.class);
+        SensorData sensorData = realTimeService.getSearchResult(search.getAccount());
+        int temperature = sensorData.getTemperature();
+        int humidity = sensorData.getHumidity();
+        int illumination = sensorData.getLight();
+        respond.setLight(illumination);
+        respond.setHumidity(humidity);
+        respond.setTemperature(temperature);
+        String page = "        <h1>Теплица 1</h1>\n" +
+                "        <div class=\"temperature infoitem\">\n" +
+                "            <p class=\"index\">"+temperature+" °C</p>\n" +
+                "            <p class=\"name\">Температура</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"humidity infoitem\">\n" +
+                "            <p class=\"index\">"+humidity+"%</p>\n" +
+                "            <p class=\"name\">Влажность</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"illumination infoitem\">\n" +
+                "            <p class=\"index\">"+illumination+" лк</p>\n" +
+                "            <p class=\"name\">Освещенность</p>\n" +
+                "        </div>\n" +
+                "      </div>\n";
+        respond.setMsg("success");
+        respond.setResult(page);
+        return  ResponseEntity.ok(respond);
+    }
+
+    @PostMapping("/api/navigation/charts")
+    public ResponseEntity<?> getChartData(@RequestBody DevicesSearchCriteria search, Errors errors)
+    {
+        ChartResponseBody respond = new ChartResponseBody();
+        if (errors.hasErrors())
+        {
+            respond.setMsg(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+            return ResponseEntity.badRequest().body(respond);
+        }
+        ChartService chartService = SpringBootApplication.ctx.getBean(ChartService.class);
+
+        List<Temperature> temperatures = chartService.getValues(Temperature.class);
+        List<Integer> averageTemperature = new ArrayList();
+        for (int i = 0; i < 6;i++)
+        {
+            List<Temperature> t = temperatures.subList(i,i+10);
+            int sum = 0;
+            for (Temperature temp : t)
+            {
+                sum += temp.getValue();
+            }
+            int average = sum/10;
+        }
+
+
+        respond.setMsg("success");
+        return  ResponseEntity.ok(respond);
+    }
+
     @PostMapping("/api/navigation/info")
     public ResponseEntity<?> getInfo(@RequestBody DevicesSearchCriteria search, Errors errors)
     {
@@ -81,17 +150,35 @@ public class MenuActionController {
         SensorData sensorData = realTimeService.getSearchResult(search.getAccount());
         int temperature = sensorData.getTemperature();
         int humidity = sensorData.getHumidity();
-        String page = "<div class=\"greenhouseinfo\">\n" +
+        int illumination = sensorData.getLight();
+        String page = "<div class=\"greenhouseinfo\" id=\"greenhouseinfo\">\n" +
                 "        <h1>Теплица 1</h1>\n" +
-                "        <div class=\"humidity infoitem\">\n" +
-                "            <p class=\"index\">"+humidity+"%</p>\n" +
-                "            <p class=\"name\">Влажность</p>\n" +
-                "        </div>\n" +
                 "        <div class=\"temperature infoitem\">\n" +
-                "            <p class=\"index\">"+temperature+"</p>\n" +
+                "            <p class=\"index\">"+humidity+" °C</p>\n" +
                 "            <p class=\"name\">Температура</p>\n" +
                 "        </div>\n" +
-                "</div>";
+                "        <div class=\"humidity infoitem\">\n" +
+                "            <p class=\"index\">"+temperature+"%</p>\n" +
+                "            <p class=\"name\">Влажность</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"illumination infoitem\">\n" +
+                "            <p class=\"index\">"+illumination+" лк</p>\n" +
+                "            <p class=\"name\">Освещенность</p>\n" +
+                "        </div>\n" +
+                "      </div>\n" +
+                "        <div class=\"hrdiv\"><hr></div>\n" +
+                "        <div class=\"gaugetemperature\"></div>\n" +
+                "        <div class=\"gaugehumidity\"></div>\n" +
+                "        <div class=\"gaugeillumination\"></div>\n" +
+                "        <div class=\"hrdiv2\"><hr></div>\n" +
+                "      <div id=\"chart-demo\">\n" +
+                "            <div id=\"temperaturechart\"></div>\n" +
+                "            <div id=\"humiditychart\"></div>\n" +
+                "            <div id=\"illuminationchart\"></div>\n" +
+                "            <div class=\"center\">\n" +
+                "                <div id=\"types\"></div>\n" +
+                "            </div>\n" +
+                "      </div>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);

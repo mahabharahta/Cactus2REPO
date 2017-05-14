@@ -1,17 +1,18 @@
 .menu {
     list-style-type: none;
-    margin: 0;
+
     padding: 0;
     width: 25%;
     background-color: #f2f2f2;
     position: fixed;
     height: 100%;
     overflow: auto;
+    font-size:1.5em;
 }
 
 li a {
     display: block;
-    color: #000;
+    color: rgba(0, 0, 0, 0.79);
     padding: 8px 16px;
     padding-left: 2%;
     text-decoration: none;
@@ -59,8 +60,11 @@ th {
     background-color: #4CAF50;
     color: white;
 }
+
 h1 {
     float: right;
+    margin-right: 2%;
+    padding-top: 1%;
 }
 
 .index {
@@ -80,4 +84,59 @@ h1 {
 
 .greenhouseinfo {
     margin-top: 2%;
+}
+
+.gaugetemperature {
+    margin-left:6%;
+    height: 440px;
+    width: 25%;
+    float: left;
+}
+
+.gaugehumidity {
+    margin-left:6%;
+    height: 440px;
+    width: 25%;
+    float: left;
+}
+
+.gaugeillumination {
+    margin-left:6%;
+    height: 440px;
+    width: 25%;
+    float: left;
+}
+.hrdiv{
+    margin-top: 15em;
+}
+
+.hrdiv2 {
+    margin-top: 35em;
+}
+
+#chart-demo {
+    margin-top:4%;
+    height: 440px;
+}
+
+#chart-demo > .center {
+    text-align: center;
+}
+
+#chart-demo > .center > div,
+#chart-demo > .center > .dx-widget {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#temperaturechart {
+    margin-top:4%;
+}
+
+#humiditychart {
+    margin-top:4%;
+}
+
+#illuminationchart {
+    margin-top:4%;
 }
