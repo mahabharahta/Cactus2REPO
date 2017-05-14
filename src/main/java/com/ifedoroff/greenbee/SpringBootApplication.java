@@ -1,12 +1,10 @@
 package com.ifedoroff.greenbee;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ifedoroff.greenbee.model.SensorData;
-import com.ifedoroff.greenbee.service.DataHandleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Arrays;
 
@@ -17,6 +15,9 @@ import java.util.Arrays;
 public class SpringBootApplication {
 
     public static ApplicationContext ctx;
+    public static final String ACCOUNT_SID = "AC752e49fdd2d76c85704efddde1387514";
+    public static final String AUTH_TOKEN = "4a1320a56a0a35616300c5f188979d4b";
+    public  static  final  String FROM = "+19728933223";
     public static void main(String[] args) throws Exception {
         ctx = SpringApplication.run(SpringBootApplication.class, args);
 
@@ -27,6 +28,7 @@ public class SpringBootApplication {
             System.out.println(beanName);
         }
         */
+
         DataServer.run();
     }
 }

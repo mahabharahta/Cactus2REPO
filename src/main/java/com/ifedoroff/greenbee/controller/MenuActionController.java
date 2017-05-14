@@ -224,7 +224,8 @@ public class MenuActionController {
                 "            <div class=\"center\">\n" +
                 "                <div id=\"types\"></div>\n" +
                 "            </div>\n" +
-                "      </div>";
+                "     <div id=\"map\"></div>\n" +
+                "     <div id=\"show-tooltips\"></div>";
         respond.setMsg("success");
         respond.setResult(page);
         return  ResponseEntity.ok(respond);

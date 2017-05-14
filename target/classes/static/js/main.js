@@ -315,6 +315,45 @@ function  click_info(identifier) {
                 },
                 title: "Освещенность"
             }).dxChart("instance");
+            var markerUrl = "https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png",
+                markersData = [{
+                    location: [50.44763374716468, 30.423141159117222],
+                    tooltip: {
+                        text: "Температура 1"
+                    }
+                }, {
+                    location: [50.44756073072327, 30.42320117354393],
+                    tooltip: {
+                        text: "Влажность 1"
+                    }
+                }, {
+                    location: [50.44761666730541, 30.423228666186333],
+                    tooltip: {
+                        text: "Освещенность 1"
+                    }
+                }
+                ];
+
+            var mapWidget = $("#map").dxMap({
+                zoom: 16,
+                height: 550,
+                width: "80%",
+                controls: true,
+                markerIconSrc: markerUrl,
+                markers: markersData
+            }).dxMap("instance");
+
+
+            $("#show-tooltips").dxButton({
+                text: "Показать все данные",
+                onClick: function() {
+                    var newMarkers = $.map(markersData, function(item) {
+                        return $.extend(true, {}, item, { tooltip: { isShown: true }} );
+                    });
+
+                    mapWidget.option("markers", newMarkers);
+                }
+            });
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
