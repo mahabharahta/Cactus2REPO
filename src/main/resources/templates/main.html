@@ -21,14 +21,22 @@
 <body>
 
 
-<ul class = "menu">
-    <li class = "menuitem"><a class="active" onclick="feed_click()">Лента</a></li>
-    <li class = "menuitem"><a onclick="all_click()">Все теплицы</a></li>
-    <li class = "menuitem"><a onclick="report_click()">Отчеты</a></li>
-</ul>
+<div class = "menu">
+    <button class = "menuitem" onclick="feed_click()">Лента</button>
+    <button class = "menuitem" onclick="all_click()">Все теплицы</button>
+    <button class = "menuitem" onclick="report_click()">Отчеты</button>
+</div>
 
 <div class = "content" id="main_content">
-
+    <div class="feed">
+     <ul class = "feedmenu">
+        <li class="greenhouseitem">
+            <div class="notificationname">Теплица 1</div>
+            <div class="notificationtime">18:00:53</div>
+            <div class="notificationtext">Хорошо все</div>
+        </li>
+      </ul>
+    </div>
 </div>
 
 
